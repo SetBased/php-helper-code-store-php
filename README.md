@@ -20,7 +20,7 @@
 </td>
 <td>
 <a href="https://packagist.org/packages/setbased/helper-code-store-php"><img src="https://poser.pugx.org/setbased/helper-code-store-php/v/stable" alt="Latest Stable Version"/></a><br/>
-<a href="https://www.versioneye.com/user/projects/576b8a84fdabcd003c03193e"><img src="https://www.versioneye.com/user/projects/576b8a84fdabcd003c03193e/badge.svg?style=flat" alt="Dependency Status"/></a>
+<a href="https://www.versioneye.com/user/projects/576e5c727bc681003c4901e5"><img src="https://www.versioneye.com/user/projects/576e5c727bc681003c4901e5/badge.svg?style=flat" alt="Dependency Status"/></a>
 </td>
 <td>
 <a href="https://travis-ci.org/SetBased/php-helper-code-store-php"><img src="https://travis-ci.org/SetBased/php-helper-code-store-php.svg?branch=master" alt="Build Status"/></a><br/>
