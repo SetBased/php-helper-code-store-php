@@ -2,10 +2,13 @@
 //----------------------------------------------------------------------------------------------------------------------
 namespace SetBased\Helper\CodeStore\Test;
 
+use PHPUnit\Framework\TestCase;
 use SetBased\Helper\CodeStore\PhpCodeStore;
 
-//----------------------------------------------------------------------------------------------------------------------
-class PhpCodeStoreTest extends \PHPUnit_Framework_TestCase
+/**
+ * Test cases for class PhpCodeStore.
+ */
+class PhpCodeStoreTest extends TestCase
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
