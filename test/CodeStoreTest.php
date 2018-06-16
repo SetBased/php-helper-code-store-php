@@ -1,5 +1,5 @@
 <?php
-//----------------------------------------------------------------------------------------------------------------------
+
 namespace SetBased\Helper\CodeStore\Test;
 
 use PHPUnit\Framework\TestCase;

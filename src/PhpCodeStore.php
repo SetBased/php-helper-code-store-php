@@ -1,8 +1,7 @@
 <?php
-//----------------------------------------------------------------------------------------------------------------------
+
 namespace SetBased\Helper\CodeStore;
 
-//----------------------------------------------------------------------------------------------------------------------
 /**
  * A helper class for automatically generating PHP code with proper indentation.
  */
@@ -18,7 +17,7 @@ class PhpCodeStore extends CodeStore
    * @since 1.0.0
    * @api
    */
-  public function __construct($indentation = 2, $width = 120)
+  public function __construct(int $indentation = 2, int $width = 120)
   {
     parent::__construct($indentation, $width);
 
@@ -29,7 +28,7 @@ class PhpCodeStore extends CodeStore
   /**
    * {@inheritdoc}
    */
-  protected function indentationMode($line)
+  protected function indentationMode(string $line): int
   {
     $mode = 0;
 

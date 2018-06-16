@@ -13,8 +13,8 @@
     "phing/phing": "^2.0.0"
   },
   "require": {
-    "php": ">=7.0.0",
-    "setbased/helper-code-store": "^1.2.0"
+    "php": ">=7.1.0",
+    "setbased/helper-code-store": "^2.0.0"
   },
   "autoload": {
     "psr-4": {
@@ -27,6 +27,6 @@
     }
   },
   "config": {
-    "bin-dir": "bin"
+    "bin-dir": "bin/"
   }
 }
