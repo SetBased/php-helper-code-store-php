@@ -10,11 +10,11 @@ class PhpCodeStore extends CodeStore
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * The levels of nested switch statements.
+   * The levels of nested default clauses.
    *
    * @var int[]
    */
-  private $switchLevel = [];
+  private $defaultLevel = [];
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
@@ -50,13 +50,46 @@ class PhpCodeStore extends CodeStore
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * Decrements indent level of the current switch statement (if any).
+   */
+  private function defaultLevelDecrement(): void
+  {
+    if (!empty($this->defaultLevel) && $this->defaultLevel[sizeof($this->defaultLevel) - 1]>0)
+    {
+      $this->defaultLevel[sizeof($this->defaultLevel) - 1]--;
+    }
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Increments indent level of the current switch statement (if any).
+   */
+  private function defaultLevelIncrement(): void
+  {
+    if (!empty($this->defaultLevel))
+    {
+      $this->defaultLevel[sizeof($this->defaultLevel) - 1]++;
+    }
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Returns true if the indent level of the current switch statement (if any) is zero. Otherwise, returns false.
+   */
+  private function defaultLevelIsZero(): bool
+  {
+    return (!empty($this->defaultLevel) && $this->defaultLevel[sizeof($this->defaultLevel) - 1]==0);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * Returns the indentation mode based blocks of code.
    *
    * @param string $line The line of code.
    *
    * @return int
    */
-  protected function indentationModeBlock(string $line): int
+  private function indentationModeBlock(string $line): int
   {
     $mode = 0;
 
@@ -64,18 +97,18 @@ class PhpCodeStore extends CodeStore
     {
       $mode |= self::C_INDENT_INCREMENT_AFTER;
 
-      $this->switchLevelIncrement();
+      $this->defaultLevelIncrement();
     }
 
     if (substr($line, 0, 1)=='}')
     {
-      $this->switchLevelDecrement();
+      $this->defaultLevelDecrement();
 
-      if ($this->switchLevelIsZero())
+      if ($this->defaultLevelIsZero())
       {
         $mode |= self::C_INDENT_DECREMENT_BEFORE_DOUBLE;
 
-        array_pop($this->switchLevel);
+        array_pop($this->defaultLevel);
       }
       else
       {
@@ -98,11 +131,6 @@ class PhpCodeStore extends CodeStore
   {
     $mode = 0;
 
-    if (substr($line, 0, 7)=='switch ')
-    {
-      $this->switchLevel[] = 0;
-    }
-
     if (substr($line, 0, 5)=='case ')
     {
       $mode |= self::C_INDENT_INCREMENT_AFTER;
@@ -110,6 +138,8 @@ class PhpCodeStore extends CodeStore
 
     if (substr($line, 0, 8)=='default:')
     {
+      $this->defaultLevel[] = 0;
+
       $mode |= self::C_INDENT_INCREMENT_AFTER;
     }
 
@@ -119,39 +149,6 @@ class PhpCodeStore extends CodeStore
     }
 
     return $mode;
-  }
-
-  //--------------------------------------------------------------------------------------------------------------------
-  /**
-   * Decrements indent level of the current switch statement (if any).
-   */
-  private function switchLevelDecrement(): void
-  {
-    if (!empty($this->switchLevel) && $this->switchLevel[sizeof($this->switchLevel) - 1]>0)
-    {
-      $this->switchLevel[sizeof($this->switchLevel) - 1]--;
-    }
-  }
-
-  //--------------------------------------------------------------------------------------------------------------------
-  /**
-   * Increments indent level of the current switch statement (if any).
-   */
-  private function switchLevelIncrement(): void
-  {
-    if (!empty($this->switchLevel))
-    {
-      $this->switchLevel[sizeof($this->switchLevel) - 1]++;
-    }
-  }
-
-  //--------------------------------------------------------------------------------------------------------------------
-  /**
-   * Returns true if the indent level of the current switch statement (if any) is zero. Otherwise, returns false.
-   */
-  private function switchLevelIsZero(): bool
-  {
-    return (!empty($this->switchLevel) && $this->switchLevel[sizeof($this->switchLevel) - 1]==0);
   }
 
   //--------------------------------------------------------------------------------------------------------------------

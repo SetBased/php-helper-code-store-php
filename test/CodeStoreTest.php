@@ -40,7 +40,22 @@ class PhpCodeStoreTest extends TestCase
     $store->append('}');
     $store->append('');
     $store->appendSeparator();
-    $store->append('public function testSwitch($i)');
+    $store->append('public function testSwitch1($i)');
+    $store->append('{');
+    $store->append('switch ($i)');
+    $store->append('{');
+    $store->append('case 1:');
+    $store->append("echo 'one';");
+    $store->append('break;');
+    $store->append('');
+    $store->append('case 2:');
+    $store->append("echo 'two';");
+    $store->append('break;');
+    $store->append('}');
+    $store->append('}');
+    $store->append('');
+    $store->appendSeparator();
+    $store->append('public function testSwitch2($i)');
     $store->append('{');
     $store->append('switch ($i)');
     $store->append('{');
@@ -97,7 +112,22 @@ class PhpCodeStoreTest extends \PHPUnit_Framework_TestCase
   }
 
   //----------------------------------------------------------------------------
-  public function testSwitch(\$i)
+  public function testSwitch1(\$i)
+  {
+    switch (\$i)
+    {
+      case 1:
+        echo 'one';
+        break;
+
+      case 2:
+        echo 'two';
+        break;
+    }
+  }
+
+  //----------------------------------------------------------------------------
+  public function testSwitch2(\$i)
   {
     switch (\$i)
     {
