@@ -14,7 +14,7 @@ class PhpCodeStoreTest extends TestCase
   /**
    * Test indentation levels for different coding styles.
    */
-  public function testIndentationLevel()
+  public function testIndentationLevel(): void
   {
     $store = new PhpCodeStore(2, 80);
 
@@ -73,7 +73,7 @@ EOL;
 
     $code = $store->getCode();
 
-    $this->assertEquals($expected, $code);
+    self::assertEquals($expected, $code);
   }
 
   //--------------------------------------------------------------------------------------------------------------------

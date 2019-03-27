@@ -8,13 +8,13 @@
   ],
   "type": "library",
   "license": "MIT",
-  "require-dev": {
-    "phpunit/phpunit": "^6.0.0",
-    "phing/phing": "^2.0.0"
-  },
   "require": {
     "php": ">=7.1.0",
     "setbased/helper-code-store": "^2.0.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.0.0 || ^8.0.0",
+    "phing/phing": "^2.0.0"
   },
   "autoload": {
     "psr-4": {
