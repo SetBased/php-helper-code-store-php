@@ -40,6 +40,37 @@ class PhpCodeStoreTest extends TestCase
     $store->append('}');
     $store->append('');
     $store->appendSeparator();
+    $store->append('public function testSwitch($i)');
+    $store->append('{');
+    $store->append('switch ($i)');
+    $store->append('{');
+    $store->append('case 1:');
+    $store->append("echo 'one';");
+    $store->append('break;');
+    $store->append('');
+    $store->append('case 2:');
+    $store->append("echo 'two';");
+    $store->append('break;');
+    $store->append('');
+    $store->append('default:');
+    $store->append('switch ($i)');
+    $store->append('{');
+    $store->append('case 4:');
+    $store->append("echo 'four';");
+    $store->append('break;');
+    $store->append('');
+    $store->append('case 5:');
+    $store->append("echo 'five';");
+    $store->append('break;');
+    $store->append('');
+    $store->append('default:');
+    $store->append('echo $i;');
+    $store->append('{;}');
+    $store->append('}');
+    $store->append('}');
+    $store->append('}');
+    $store->append('');
+    $store->appendSeparator();
     $store->append('}');
     $store->append('');
     $store->appendSeparator();
@@ -62,6 +93,37 @@ class PhpCodeStoreTest extends \PHPUnit_Framework_TestCase
       echo "true";
     } else {
       echo "false";
+    }
+  }
+
+  //----------------------------------------------------------------------------
+  public function testSwitch(\$i)
+  {
+    switch (\$i)
+    {
+      case 1:
+        echo 'one';
+        break;
+
+      case 2:
+        echo 'two';
+        break;
+
+      default:
+        switch (\$i)
+        {
+          case 4:
+            echo 'four';
+            break;
+
+          case 5:
+            echo 'five';
+            break;
+
+          default:
+            echo \$i;
+            {;}
+        }
     }
   }
 
