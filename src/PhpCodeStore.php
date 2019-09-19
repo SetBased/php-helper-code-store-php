@@ -16,6 +16,13 @@ class PhpCodeStore extends CodeStore
    */
   private $defaultLevel = [];
 
+  /**
+   * The heredoc identifier.
+   *
+   * @var string|null
+   */
+  private $heredocIdentifier;
+
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * Object constructor.
@@ -42,6 +49,8 @@ class PhpCodeStore extends CodeStore
     $line = trim($line);
 
     $mode = 0;
+
+    $mode |= $this->indentationModeHeredoc($line);
     $mode |= $this->indentationModeSwitch($line);
     $mode |= $this->indentationModeBLock($line);
 
@@ -93,6 +102,8 @@ class PhpCodeStore extends CodeStore
   {
     $mode = 0;
 
+    if ($this->heredocIdentifier!==null) return $mode;
+
     if (substr($line, -1, 1)=='{')
     {
       $mode |= self::C_INDENT_INCREMENT_AFTER;
@@ -121,6 +132,38 @@ class PhpCodeStore extends CodeStore
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   *
+   * @param string $line The line of code.
+   *
+   * @return int
+   */
+  private function indentationModeHeredoc(string $line): int
+  {
+    $mode = 0;
+
+    if ($this->heredocIdentifier!==null)
+    {
+      $mode |= self::C_INDENT_HEREDOC;
+
+      if ($line==$this->heredocIdentifier.';')
+      {
+        $this->heredocIdentifier = null;
+      }
+    }
+    else
+    {
+      $n = preg_match('/=\s*<<<\s*([A-Z]+)$/', $line, $parts);
+      if ($n==1)
+      {
+        $this->heredocIdentifier = $parts[1];
+      }
+    }
+
+    return $mode;
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * Returns the indentation mode based on a line of code for switch statements.
    *
    * @param string $line The line of code.
@@ -130,6 +173,8 @@ class PhpCodeStore extends CodeStore
   private function indentationModeSwitch(string $line): int
   {
     $mode = 0;
+
+    if ($this->heredocIdentifier!==null) return $mode;
 
     if (substr($line, 0, 5)=='case ')
     {

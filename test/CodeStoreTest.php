@@ -170,6 +170,67 @@ EOL;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Test indentation levels for heredoc.
+   */
+  public function testHeredoc(): void
+  {
+    $store = new PhpCodeStore(2, 80);
+
+    $store->append('<?php');
+    $store->appendSeparator();
+    $store->append('namespace SetBased\Helper\CodeStore\Test;');
+    $store->append('');
+    $store->append('use SetBased\Helper\CodeStore\PhpCodeStore;');
+    $store->append('');
+    $store->appendSeparator();
+    $store->append('class PhpCodeStoreTest extends \PHPUnit_Framework_TestCase');
+    $store->append('{');
+    $store->appendSeparator();
+    $store->append('public function testHeredoc()');
+    $store->append('{');
+    $store->append('$text = <<< EOT');
+    $store->append('Hello, World!');
+    $store->append('Hello, World!');
+    $store->append('EOT;');
+    $store->append('}');
+    $store->append('');
+    $store->appendSeparator();
+    $store->append('}');
+    $store->append('');
+    $store->appendSeparator();
+
+    $expected = <<< EOL
+<?php
+//------------------------------------------------------------------------------
+namespace SetBased\Helper\CodeStore\Test;
+
+use SetBased\Helper\CodeStore\PhpCodeStore;
+
+//------------------------------------------------------------------------------
+class PhpCodeStoreTest extends \PHPUnit_Framework_TestCase
+{
+  //----------------------------------------------------------------------------
+  public function testHeredoc()
+  {
+    \$text = <<< EOT
+Hello, World!
+Hello, World!
+EOT;
+  }
+
+  //----------------------------------------------------------------------------
+}
+
+//------------------------------------------------------------------------------
+
+EOL;
+
+    $code = $store->getCode();
+
+    self::assertEquals($expected, $code);
+  }
+  //--------------------------------------------------------------------------------------------------------------------
 }
 
 //----------------------------------------------------------------------------------------------------------------------
