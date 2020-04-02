@@ -9,7 +9,7 @@
   "type": "library",
   "license": "MIT",
   "require": {
-    "php": ">=7.3.0",
+    "php": ">=7.3",
     "setbased/helper-code-store": "^2.3"
   },
   "require-dev": {
@@ -27,6 +27,7 @@
     }
   },
   "config": {
-    "bin-dir": "bin/"
+    "bin-dir": "bin/",
+    "sort-packages": true
   }
 }
