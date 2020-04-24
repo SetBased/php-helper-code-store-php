@@ -179,7 +179,9 @@ class Importing
    */
   public function simplyFullyQualifiedName(string $fullyQualifiedName): string
   {
-    return $this->replace[self::fullyQualify($fullyQualifiedName)];
+    $fullyQualifiedName = self::fullyQualify($fullyQualifiedName);
+
+    return $this->replace[$fullyQualifiedName] ?? $fullyQualifiedName;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -202,7 +204,7 @@ class Importing
                        'namespace'            => $namespace,
                        'name'                 => $name,
                        'alias'                => null,
-                       'import'               => ($namespace!==$this->namespace)];
+                       'import'               => ($namespace!==$this->namespace && $namespace!=='')];
     }
 
     foreach ($rawImports as &$rawImport)
@@ -273,7 +275,10 @@ class Importing
     $this->replace = [];
     foreach ($rawImports as $rawImport)
     {
-      $this->replace[$rawImport['fully_qualified_name']] = $rawImport['alias'] ?? $rawImport['name'];
+      if ($rawImport['import'])
+      {
+        $this->replace[$rawImport['fully_qualified_name']] = $rawImport['alias'] ?? $rawImport['name'];
+      }
     }
   }
 
