@@ -50,11 +50,11 @@ class Importing
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * The (fully) qualified name optionally without leading slash.
+   * Returns the fully qualified name given a (fully) qualified name.
    *
-   * @param string $name The fully qualified name with lead slash.
+   * @param string $name The (fully) qualified name optionally without leading slash.
    *
-   * @return string
+   * @return string The fully qualified name with lead slash.
    */
   public static function fullyQualify(string $name): string
   {
