@@ -89,6 +89,7 @@ class ImportingTest extends TestCase
     $importing->addClass('\\Foo\\Bar\\ClassTwoAlias1');
     $importing->addClass('\\Foo\\Bar\\ClassTwoAlias2');
     $importing->addClass('\\Foo\\Bar\\ClassThree');
+    $importing->addClass('\\Throwable');
 
     $importing->prepare();
 
@@ -101,12 +102,13 @@ class ImportingTest extends TestCase
 
     self::assertSame($expected, $importing->imports());
 
-    $expected = ['\\Foo\\Bar\\ClassTwoAlias1' => 'ClassTwoAlias1',
-                 '\\Foo\\Bar\\ClassTwoAlias2' => 'ClassTwoAlias2',
-                 '\\Foo\\Bar\\ClassThree'     => 'ClassThree',
-                 '\\Bar\\Foo\\ClassTwo'       => 'ClassTwoAlias3',
-                 '\\Foo\\Bar\\ClassOne'       => 'ClassOne',
-                 '\\Foo\\Bar\\ClassTwo'       => 'ClassTwoAlias4'];
+    $expected = ['\\'.__NAMESPACE__.'\\ClassTwo' => 'ClassTwo',
+                 '\\Foo\\Bar\\ClassTwoAlias1'    => 'ClassTwoAlias1',
+                 '\\Foo\\Bar\\ClassTwoAlias2'    => 'ClassTwoAlias2',
+                 '\\Foo\\Bar\\ClassThree'        => 'ClassThree',
+                 '\\Bar\\Foo\\ClassTwo'          => 'ClassTwoAlias3',
+                 '\\Foo\\Bar\\ClassOne'          => 'ClassOne',
+                 '\\Foo\\Bar\\ClassTwo'          => 'ClassTwoAlias4'];
 
     self::assertSame($expected, $importing->replacePairs());
   }
@@ -123,6 +125,34 @@ class ImportingTest extends TestCase
 
     self::assertSame([], $importing->imports());
     self::assertSame([], $importing->replacePairs());
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Simple test with 3 distinct classes and a global name.
+   */
+  public function testSameNamespace(): void
+  {
+    $importing = new Importing(__NAMESPACE__);
+    $importing->addClass(__NAMESPACE__.'\\ClassOne');
+    $importing->addClass(__NAMESPACE__.'\\ClassTwo');
+    $importing->addClass(__NAMESPACE__.'\\ClassThree');
+    $importing->addClass('\\Throwable');
+
+    $importing->prepare();
+
+    self::assertSame([], $importing->imports());
+
+    $expected = ['\\'.__NAMESPACE__.'\\ClassThree' => 'ClassThree',
+                 '\\'.__NAMESPACE__.'\\ClassOne'   => 'ClassOne',
+                 '\\'.__NAMESPACE__.'\\ClassTwo'   => 'ClassTwo'];
+
+    self::assertSame($expected, $importing->replacePairs());
+
+    self::assertSame('ClassOne', $importing->simplyFullyQualifiedName(__NAMESPACE__.'\\ClassOne'));
+    self::assertSame('ClassTwo', $importing->simplyFullyQualifiedName(__NAMESPACE__.'\\ClassTwo'));
+    self::assertSame('ClassThree', $importing->simplyFullyQualifiedName(__NAMESPACE__.'\\ClassThree'));
+    self::assertSame('\\Throwable', $importing->simplyFullyQualifiedName('\\Throwable'));
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -158,7 +188,7 @@ class ImportingTest extends TestCase
   /**
    * Simple test with 3 distinct classes and a global name.
    */
-  public function testSimpleCaseWIthGlobalName(): void
+  public function testSimpleCaseWithGlobalName(): void
   {
     $importing = new Importing(__NAMESPACE__);
     $importing->addClass('\\Foo\\Bar\\ClassOne');

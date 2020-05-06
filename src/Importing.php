@@ -186,6 +186,19 @@ class Importing
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * Returns true if and only if the a name space is the global or current namespace.
+   *
+   * @param string $namespace The namespace.
+   *
+   * @return bool
+   */
+  private function isGlobalOrCurrentNamespace(string $namespace): bool
+  {
+    return ($namespace===$this->namespace || $namespace==='');
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * Returns raw data about classes to import.
    *
    * @return array
@@ -204,12 +217,13 @@ class Importing
                        'namespace'            => $namespace,
                        'name'                 => $name,
                        'alias'                => null,
-                       'import'               => ($namespace!==$this->namespace && $namespace!=='')];
+                       'import'               => !$this->isGlobalOrCurrentNamespace($namespace)];
     }
 
     foreach ($rawImports as &$rawImport)
     {
-      if (self::collision1($rawImports, $rawImport['fully_qualified_name']))
+      if (!$this->isGlobalOrCurrentNamespace($rawImport['namespace']) &&
+        self::collision1($rawImports, $rawImport['fully_qualified_name']))
       {
         $i = 1;
         do
@@ -275,7 +289,7 @@ class Importing
     $this->replace = [];
     foreach ($rawImports as $rawImport)
     {
-      if ($rawImport['import'])
+      if ($rawImport['namespace']!=='')
       {
         $this->replace[$rawImport['fully_qualified_name']] = $rawImport['alias'] ?? $rawImport['name'];
       }
