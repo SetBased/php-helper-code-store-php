@@ -9,7 +9,7 @@ use SetBased\Helper\CodeStore\PhpCodeStore;
 /**
  * Test cases for class PhpCodeStore.
  */
-class PhpCodeStoreTest extends TestCase
+class CodeStoreTest extends TestCase
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
