@@ -5,16 +5,6 @@ filter:
     - 'test/'
 
 build:
-  environment:
-    php:
-      pecl_extensions:
-        - inotify
-
-  project_setup:
-    before:
-      - export PLAISIO_CONFIG_DIR=test
-      - ./bin/phing kernel
-
   nodes:
     analysis:
       tests:
