@@ -14,28 +14,28 @@ class Importing
    *
    * @var array
    */
-  private $classes = [];
+  private array $classes = [];
 
   /**
    * The import statements.
    *
    * @var string[]
    */
-  private $imports;
+  private array $imports;
 
   /**
    * The namespace.
    *
    * @var string
    */
-  private $namespace;
+  private string $namespace;
 
   /**
-   * The replace pairs from fully qualified name to imported name.
+   * The replacement pairs from fully qualified name to imported name.
    *
    * @var array
    */
-  private $replace;
+  private array $replace;
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
@@ -160,7 +160,7 @@ class Importing
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Returns the replace pairs from fully qualified name to imported name.
+   * Returns the replacement pairs from fully qualified name to imported name.
    *
    * @return array
    */
@@ -186,7 +186,7 @@ class Importing
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Returns true if and only if the a name space is the global or current namespace.
+   * Returns whether a name space is the global or current namespace.
    *
    * @param string $namespace The namespace.
    *
@@ -270,7 +270,7 @@ class Importing
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Prepares the replace pairs.
+   * Prepares the replacement pairs.
    *
    * @param array $rawImports The raw data about classes to import.
    */

@@ -14,14 +14,14 @@ class PhpCodeStore extends CodeStore
    *
    * @var int[]
    */
-  private $defaultLevel = [];
+  private array $defaultLevel = [];
 
   /**
    * The heredoc identifier.
    *
    * @var string|null
    */
-  private $heredocIdentifier;
+  private ?string $heredocIdentifier = null;
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
@@ -52,7 +52,7 @@ class PhpCodeStore extends CodeStore
 
     $mode |= $this->indentationModeHeredoc($line);
     $mode |= $this->indentationModeSwitch($line);
-    $mode |= $this->indentationModeBLock($line);
+    $mode |= $this->indentationModeBlock($line);
 
     return $mode;
   }
@@ -83,7 +83,7 @@ class PhpCodeStore extends CodeStore
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Returns true if the indent level of the current switch statement (if any) is zero. Otherwise, returns false.
+   * Returns whether the indent level of the current switch statement (if any) is zero.
    */
   private function defaultLevelIsZero(): bool
   {
@@ -104,14 +104,14 @@ class PhpCodeStore extends CodeStore
 
     if ($this->heredocIdentifier!==null) return $mode;
 
-    if (substr($line, -1, 1)=='{')
+    if (str_ends_with($line, '{'))
     {
       $mode |= self::C_INDENT_INCREMENT_AFTER;
 
       $this->defaultLevelIncrement();
     }
 
-    if (substr($line, 0, 1)=='}')
+    if (str_starts_with($line, '}'))
     {
       $this->defaultLevelDecrement();
 
@@ -132,6 +132,7 @@ class PhpCodeStore extends CodeStore
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * Returns the indentation mode based on a line of code starting a heredoc.
    *
    * @param string $line The line of code.
    *
@@ -176,19 +177,19 @@ class PhpCodeStore extends CodeStore
 
     if ($this->heredocIdentifier!==null) return $mode;
 
-    if (substr($line, 0, 5)=='case ')
+    if (str_starts_with($line, 'case '))
     {
       $mode |= self::C_INDENT_INCREMENT_AFTER;
     }
 
-    if (substr($line, 0, 8)=='default:')
+    if (str_starts_with($line, 'default:'))
     {
       $this->defaultLevel[] = 0;
 
       $mode |= self::C_INDENT_INCREMENT_AFTER;
     }
 
-    if (substr($line, 0, 6)=='break;')
+    if (str_starts_with($line, 'break;'))
     {
       $mode |= self::C_INDENT_DECREMENT_AFTER;
     }
