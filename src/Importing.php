@@ -149,7 +149,7 @@ class Importing
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Prepares the data for retrieving import statements and replace pairs (see methods replacePairs() and imports().
+   * Prepares the data for retrieving import statements and replace pairs (see methods replacePairs() and imports()).
    */
   public function prepare(): void
   {
