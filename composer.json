@@ -10,7 +10,7 @@
   "license": "MIT",
   "require": {
     "php": ">=8.3",
-    "setbased/helper-code-store": "^2.4.0"
+    "setbased/helper-code-store": "^2.5.0"
   },
   "require-dev": {
     "phing/phing": "^3.0.1",
